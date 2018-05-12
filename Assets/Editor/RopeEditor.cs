@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(Rope))]
-public class RopeEditor : Editor {
+public class RopeEditor : Editor
+{
 
     Rope rope;
 
@@ -12,11 +13,23 @@ public class RopeEditor : Editor {
     {
         rope = (Rope)target;
 
-        base.OnInspectorGUI();
+        if (!rope.initialized)
+        {
+            if (GUILayout.Button("Initialize Rope"))
+            {
+                
+            }
+        }
+        else
+        {
+            //base.OnInspectorGUI();
+        }
     }
 
     private void OnSceneGUI()
     {
-        
+
     }
+
+    
 }
