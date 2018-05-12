@@ -25,11 +25,4 @@ public class RopeEditor : Editor
             base.OnInspectorGUI();
         }
     }
-
-    private void OnSceneGUI()
-    {
-        
-    }
-
-
 }
