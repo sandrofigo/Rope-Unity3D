@@ -17,19 +17,19 @@ public class RopeEditor : Editor
         {
             if (GUILayout.Button("Initialize Rope"))
             {
-                
+
             }
         }
         else
         {
-            //base.OnInspectorGUI();
+            base.OnInspectorGUI();
         }
     }
 
     private void OnSceneGUI()
     {
-
+        
     }
 
-    
+
 }
