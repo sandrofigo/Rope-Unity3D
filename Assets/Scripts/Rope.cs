@@ -139,10 +139,6 @@ public class Rope : MonoBehaviour
         anchor1 = a1.transform;
         anchor2 = a2.transform;
 
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.SetPosition(0, anchor1.localPosition);
-        lineRenderer.SetPosition(1, anchor2.localPosition);
-
         CreateNodes(2);
 
         UpdateLineRenderer();
@@ -152,13 +148,12 @@ public class Rope : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (nodes.Count >= 2)
-        {
-            nodes[0] = anchor1.position;
-            nodes[nodes.Count - 1] = anchor2.position;
+        // Draw line between the two anchor points
+        if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
 
-            UpdateLineRenderer();
-        }
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0, anchor1.position);
+        lineRenderer.SetPosition(1, anchor2.position);
     }
 
     private void OnDrawGizmosSelected()
@@ -172,8 +167,6 @@ public class Rope : MonoBehaviour
         transform.position = pos;
         anchor1.position = oldAnchor1;
         anchor2.position = oldAnchor2;
-
-        UpdateLineRenderer();
     }
 
 }
