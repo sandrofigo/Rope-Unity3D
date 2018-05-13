@@ -9,9 +9,14 @@ using UnityEditor;
 public class Rope : MonoBehaviour
 {
 
-
+    [HideInInspector]
     public bool initialized = false;
 
+    [SerializeField]
+    private bool autoStatic = true;
+    private bool update = true;
+
+    [HideInInspector]
     [SerializeField]
     private Material lineMaterial;
 
@@ -23,6 +28,7 @@ public class Rope : MonoBehaviour
     private Transform anchor2;
 
     List<Vector3> nodes = new List<Vector3>();
+    Vector3[] oldNodes;
 
     [SerializeField]
     [Range(2, 50)]
@@ -59,7 +65,18 @@ public class Rope : MonoBehaviour
 
     private void Update()
     {
-        UpdateNodes();
+        if (autoStatic)
+        {
+            update = AreNodesMoving();
+        }
+
+        if (update)
+        {
+            UpdateNodes();
+            UpdateLineRenderer();
+        }
+
+
     }
 
     private void CreateNodes(int count)
@@ -104,19 +121,36 @@ public class Rope : MonoBehaviour
             pos.y += gravity / 100f;
             nodes[i] = pos;
         }
-
-        UpdateLineRenderer();
     }
 
     private void UpdateLineRenderer()
     {
         if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
 
-        lineRenderer.positionCount = nodes.Count;
+
         for (int i = 0; i < nodes.Count; i++)
         {
             lineRenderer.SetPosition(i, nodes[i]);
         }
+    }
+
+    private bool AreNodesMoving()
+    {
+        if (oldNodes == null || oldNodes.Length != nodes.Count) oldNodes = new Vector3[nodes.Count];
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            float dist = Vector3.Distance(oldNodes[i], nodes[i]);
+
+            oldNodes[i] = nodes[i];
+
+            if (dist == 0)
+                continue;
+            else
+                return true;
+        }
+
+        return false;
     }
 
     private void Reset()
@@ -153,9 +187,10 @@ public class Rope : MonoBehaviour
         // Draw line between the two anchor points
         if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
 
-        lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0, anchor1.position);
-        lineRenderer.SetPosition(1, anchor2.position);
+        if (!autoStatic) { 
+            lineRenderer.SetPosition(0, anchor1.position);
+            lineRenderer.SetPosition(1, anchor2.position);
+        }
     }
 
     private void OnDrawGizmosSelected()
