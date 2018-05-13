@@ -36,7 +36,7 @@ public class Rope : MonoBehaviour
     private static void DoSomething()
     {
         GameObject rope = new GameObject();
-        
+
         Camera sceneCamera = SceneView.lastActiveSceneView.camera;
         if (sceneCamera != null)
         {
@@ -65,6 +65,8 @@ public class Rope : MonoBehaviour
     private void CreateNodes(int count)
     {
         // Setup Line Renderer
+        if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
+
         lineRenderer.positionCount = count;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
@@ -99,7 +101,7 @@ public class Rope : MonoBehaviour
             nodes[i] = nodes[i - 1] + dir;
 
             Vector3 pos = nodes[i];
-            pos.y += gravity;
+            pos.y += gravity / 100f;
             nodes[i] = pos;
         }
 
