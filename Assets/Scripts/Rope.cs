@@ -18,10 +18,6 @@ public class Rope : MonoBehaviour
 
     [HideInInspector]
     [SerializeField]
-    private Material lineMaterial;
-
-    [HideInInspector]
-    [SerializeField]
     private Transform anchor1;
     [HideInInspector]
     [SerializeField]
@@ -87,7 +83,6 @@ public class Rope : MonoBehaviour
         lineRenderer.positionCount = count;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
-        lineRenderer.material = lineMaterial;
         float brightness = 0.20f;
         Color c = new Color(brightness, brightness, brightness);
         lineRenderer.startColor = c;
